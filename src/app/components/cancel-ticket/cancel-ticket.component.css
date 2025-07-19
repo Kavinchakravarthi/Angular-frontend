@@ -1,0 +1,41 @@
+/* cancel-ticket.component.css */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
+
+/* Custom animations */
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* Custom classes */
+.font-poppins {
+  font-family: 'Poppins', sans-serif;
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+/* Custom radio button styling */
+.form-radio {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+  width: 1em;
+  height: 1em;
+  border: 2px solid #d1d5db;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.form-radio:checked {
+  border-color: #ef4444;
+  background-color: #ef4444;
+  background-image: radial-gradient(circle, white 35%, transparent 40%);
+}
+
+.form-radio:focus {
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2);
+}

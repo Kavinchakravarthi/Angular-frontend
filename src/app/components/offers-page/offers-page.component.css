@@ -1,0 +1,80 @@
+/* Custom styles for the offers page */
+.offer-card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  border: 1px solid #e5e7eb;
+}
+
+.offer-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+}
+
+.category-btn {
+  transition: all 0.2s ease;
+}
+
+.category-btn:hover {
+  transform: translateY(-2px);
+}
+
+.copy-btn {
+  transition: all 0.2s ease;
+  border: 1px solid #fecaca;
+}
+
+.copy-btn:hover {
+  transform: scale(1.05);
+  background-color: #fee2e2;
+}
+
+/* Animation for the coupon code button */
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0.4);
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgba(220, 38, 38, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(220, 38, 38, 0);
+  }
+}
+
+.copy-btn:active {
+  animation: pulse 0.5s;
+}
+
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  .category-scroll {
+    scrollbar-width: none; /* Firefox */
+    -ms-overflow-style: none; /* IE and Edge */
+  }
+  
+  .category-scroll::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+}
+
+/* Additional custom styles */
+.bg-gradient-red {
+  background: linear-gradient(135deg, #dc2626 0%, #991b1b 100%);
+}
+
+.offer-card .discount-badge {
+  font-size: 0.875rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.offer-card .days-left-badge {
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+}
+
+.book-now-button {
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.book-now-button:hover {
+  transform: translateY(-1px);
+}

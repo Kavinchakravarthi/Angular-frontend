@@ -1,0 +1,24 @@
+<div #container class="scroll-container">
+  <div class="content-wrapper">
+    <!-- Left Column: Scrollable Text -->
+    <div class="text-column">
+      <div class="text-list">
+        <ng-container *ngFor="let section of sections; let i = index">
+          <div #textPanel class="text-panel">
+            <div class="text-content">
+              <h2>{{ section.title }}</h2>
+              <p>{{ section.description }}</p>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <!-- Right Column: Fixed Image -->
+    <div class="image-column">
+      <ng-container *ngFor="let section of sections; let i = index">
+        <div #imagePanel class="image-panel" [style.background-image]="'url(' + section.image + ')'">
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,140 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Hero Section -->
+  <div class="bg-gradient-to-r from-red-600 to-red-800 text-white py-16 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto text-center">
+      <h1 class="text-4xl font-bold mb-4 sm:text-5xl">Exclusive Bus Ticket Offers</h1>
+      <p class="text-xl max-w-3xl mx-auto sm:text-2xl">Save big on your next journey with these limited-time discounts</p>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
+    <!-- Category Filters -->
+    <div class="mb-8 overflow-x-auto category-scroll">
+      <div class="flex space-x-6   pb-2">
+         <div>
+        <button 
+          (click)="goHome()"
+          class="inline-flex items-center px-4 py-2 bg-white border border-gray-300 rounded-lg shadow-sm text-red-600 hover:bg-red-50 font-semibold transition duration-200"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+          </svg>
+          Back to Home
+        </button>
+        </div>
+        <button 
+          *ngFor="let category of categories"
+          (click)="selectedCategory = category.id"
+          [class]="selectedCategory === category.id ? 
+            'bg-red-600 text-white shadow-md' : 'bg-white text-gray-800 hover:bg-gray-100'"
+          class="px-6 py-2 rounded-full font-medium whitespace-nowrap transition-all duration-200 shadow-sm border border-gray-200 category-btn"
+        >
+          {{ category.name }}
+        </button>
+      </div>
+      
+    </div>
+
+    <!-- Offers Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <!-- Offer Card -->
+      <div *ngFor="let offer of filteredOffers" class="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-lg transition-all duration-300 offer-card">
+        <!-- Offer Image -->
+        <div class="relative h-48">
+          <img [src]="offer.image" alt="Offer" class="w-full h-full object-cover">
+          <!-- Discount Badge -->
+          <div class="absolute top-4 right-4 bg-white text-red-600 font-bold px-3 py-1 rounded-full shadow-md">
+            {{ offer.discountType === 'percentage' ? offer.discountValue + '% OFF' : '₹' + offer.discountValue + ' OFF' }}
+          </div>
+          <!-- Days Left -->
+          <div class="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white text-sm px-3 py-1 rounded-full">
+            {{ getRemainingDays(offer.validUntil) }} days left
+          </div>
+        </div>
+
+        <!-- Offer Details -->
+        <div class="p-6">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">{{ offer.title }}</h3>
+          <p class="text-gray-600 mb-4">{{ offer.description }}</p>
+          
+          <div class="mb-4">
+            <div class="flex items-center justify-between mb-2">
+              <div class="text-sm">
+                <p class="text-gray-500">Min. amount: <span class="font-medium">₹{{ offer.minAmount }}</span></p>
+                <p class="text-gray-500">Valid until: <span class="font-medium">{{ offer.validUntil | date:'mediumDate' }}</span></p>
+              </div>
+              <button 
+                (click)="copyToClipboard(offer.code)"
+                class="bg-red-50 hover:bg-red-200 text-red-600 border border-gray-300 showdow-lg font-medium py-2 px-4 rounded-lg flex items-center transition copy-btn"
+              >
+                <span class="mr-2">{{ offer.code }}</span>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="size-5 text-gray-800">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M15.666 3.888A2.25 2.25 0 0 0 13.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 0 1-.75.75H9a.75.75 0 0 1-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 0 1-2.25 2.25H6.75A2.25 2.25 0 0 1 4.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 0 1 1.927-.184" />
+</svg>
+
+              </button>
+            </div>
+
+            <!-- Terms & Conditions -->
+            <div class="bg-gray-50 p-3 rounded-lg">
+              <h4 class="text-sm font-medium text-gray-700 mb-1">Terms & Conditions:</h4>
+              <ul class="text-xs text-gray-600 list-disc pl-5 space-y-1">
+                <li *ngFor="let term of offer.terms">{{ term }}</li>
+              </ul>
+            </div>
+          </div>
+
+          <button class="w-full py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200">
+            Book Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Empty State -->
+    <div *ngIf="filteredOffers.length === 0" class="text-center py-12">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4H5z" />
+      </svg>
+      <h3 class="text-xl font-medium text-gray-800 mt-4">No offers available in this category</h3>
+      <p class="text-gray-500 mt-2">Check back later for new offers</p>
+      <button 
+        (click)="selectedCategory = 'all'"
+        class="mt-4 px-6 py-2 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors duration-200"
+      >
+        View All Offers
+      </button>
+    </div>
+  </div>
+
+  <!-- How to Use Section -->
+  <div class="bg-gray-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold text-center mb-8 sm:text-3xl">How to use these offers</h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div class="text-center">
+          <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+            <span class="text-2xl font-bold text-red-600">1</span>
+          </div>
+          <h3 class="font-medium text-lg mb-2">Select your offer</h3>
+          <p class="text-gray-600">Choose from available offers that suit your travel plans</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+            <span class="text-2xl font-bold text-red-600">2</span>
+          </div>
+          <h3 class="font-medium text-lg mb-2">Copy coupon code</h3>
+          <p class="text-gray-600">Click on the coupon code to copy it to your clipboard</p>
+        </div>
+        <div class="text-center">
+          <div class="bg-white rounded-full w-16 h-16 flex items-center justify-center mx-auto mb-4 shadow-md">
+            <span class="text-2xl font-bold text-red-600">3</span>
+          </div>
+          <h3 class="font-medium text-lg mb-2">Apply at checkout</h3>
+          <p class="text-gray-600">Paste the code during payment to avail the discount</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
