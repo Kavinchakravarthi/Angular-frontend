@@ -98,7 +98,7 @@ import { FormsModule } from '@angular/forms';
           </a>
 
           <a 
-            routerLink="/about-us"
+            routerLink="/aboutus"
             (click)="closeOffcanvas()"
             class="flex items-center px-4 py-3 text-sm text-gray-700 hover:bg-gray-100 rounded-md"
           >

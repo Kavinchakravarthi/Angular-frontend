@@ -272,57 +272,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
                     </div>
                   </div>
                 </div>
-
-                
               </div>
-            </div>
-
-            <!-- Selected Seats Summary -->
-            <div *ngIf="selectedSeats.length > 0" class="mt-6 bg-gray-50 p-4 rounded-lg">
-              <h3 class="font-medium text-gray-900 mb-3">Selected Seats</h3>
-              <div class="flex flex-wrap gap-2">
-                <div *ngFor="let seat of selectedSeats" class="bg-white px-3 py-2 rounded border border-gray-200 flex items-center">
-                  <span class="font-medium">Seat {{seat.number}}</span>
-                  <span class="mx-2 text-gray-400">|</span>
-                  <span class="text-sm">₹{{bus.price}}</span>
-                  <button 
-                    (click)="toggleSeatSelection(seat)"
-                    class="ml-2 text-gray-400 hover:text-red-600"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
-              </div>
-              <div class="mt-3 pt-3 border-t border-gray-200 flex justify-between items-center">
-                <span class="text-sm font-medium">Total</span>
-                <span class="text-lg font-medium text-red-600">₹{{totalPrice}}</span>
-              </div>
-            </div>
-
-            <!-- Action Buttons -->
-            <div class="mt-8 flex justify-between">
-              <button 
-                (click)="goHome()"
-                class="inline-flex items-center px-4 py-2 rounded-md border border-gray-300 text-gray-700 font-medium bg-white hover:bg-gray-100 transition"
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-                </svg>
-                Back to Home
-              </button>
-              <button 
-                (click)="nextStep()"
-                [disabled]="selectedSeats.length === 0"
-                [ngClass]="{
-                  'bg-red-600 hover:bg-red-700': selectedSeats.length > 0,
-                  'bg-gray-300 cursor-not-allowed': selectedSeats.length === 0
-                }"
-                class="px-6 py-3 rounded-md text-white font-medium transition"
-              >
-                Continue to Boarding Points
-              </button>
             </div>
           </div>
         </div>
@@ -532,6 +482,48 @@ import { NavbarComponent } from '../navbar/navbar.component';
         </div>
       </div>
     </div>
+
+    <!-- Sticky Selected Seats Summary (Red Bus Style) -->
+    <div *ngIf="currentStep === 1 && selectedSeats.length > 0" class="fixed bottom-0 left-0 right-0 bg-red-600 text-white shadow-lg z-50">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
+        <div class="flex flex-col md:flex-row items-center justify-between">
+        <!-- Action Buttons -->
+            <div class="flex ">
+              <button 
+                (click)="goHome()"
+                class="inline-flex items-center px-4 py-2 rounded-md border border-gray-300 text-gray-700 font-medium bg-white hover:bg-gray-100 transition"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+                </svg>
+                Back to Home
+              </button>
+            </div>
+          <div class="flex items-center mb-2 md:mb-0 md:mr-12">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7v8a2 2 0 002 2h6M8 7V5a2 2 0 012-2h4.586a1 1 0 01.707.293l4.414 4.414a1 1 0 01.293.707V15a2 2 0 01-2 2h-2M8 7H6a2 2 0 00-2 2v10a2 2 0 002 2h8a2 2 0 002-2v-2" />
+            </svg>
+            <span class="font-medium">Selected Seats:</span>
+            <div class="ml-2 flex flex-wrap gap-1">
+              <span *ngFor="let seat of selectedSeats" class="bg-white text-red-600 px-2 py-1 rounded text-xs font-bold">
+                {{seat.number}}
+              </span>
+            </div>
+          </div>
+          
+          <div class="flex items-center">
+
+            <span class="font-medium mr-4">Total: ₹{{totalPrice}}</span>
+            <button 
+              (click)="nextStep()"
+              class="px-6 py-2 rounded-md bg-white text-red-600 font-medium hover:bg-gray-100 transition"
+            >
+              Continue
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   `,
   styles: [
     `
@@ -685,7 +677,17 @@ export class SeatSelectionComponent {
           return `Cannot book seat ${seat.number} - adjacent to female passenger(s) in seat(s): ${adjacentFemaleSeats.map((s: any) => s.number).join(', ')}`;
         }
       }
-      // For any other restriction, show a generic message
+      
+      if (this.currentGender === 'female') {
+        const adjacentMaleSeats = seat.adjacentSeats
+          .map((num: number) => this.seats.find(s => s.number === num))
+          .filter((s: any) => s && s.gender === 'male');
+
+        if (adjacentMaleSeats.length > 0) {
+          return `Cannot book seat ${seat.number} - adjacent to male passenger(s) in seat(s): ${adjacentMaleSeats.map((s: any) => s.number).join(', ')}`;
+        }
+      }
+
       if (seat.type === 'ladies') {
         return 'This seat is for female passenger';
       }
@@ -711,6 +713,16 @@ export class SeatSelectionComponent {
       if (hasAdjacentFemale) return false;
     }
     
+    if (this.currentGender === 'female') {
+      // For female passengers, check if any adjacent seat is booked by male
+      const hasAdjacentMale = seat.adjacentSeats.some((adjSeatNum: number) => {
+        const adjSeat = this.seats.find(s => s.number === adjSeatNum);
+        return adjSeat && adjSeat.gender === 'male';
+      });
+      
+      if (hasAdjacentMale) return false;
+    }
+    
     return true;
   }
 
@@ -721,16 +733,19 @@ export class SeatSelectionComponent {
 
   getSeatClasses(seat: any) {
     const isAvailable = this.isSeatAvailable(seat);
-    
-    return {
+    const classes: { [key: string]: boolean } = {
       'bg-gray-200 text-gray-400 cursor-not-allowed border-gray-300': seat.status === 'booked',
       'bg-green-100 text-green-800 border-2 border-green-400': seat.status === 'selected',
       'bg-white text-gray-800 border-2 border-gray-400 hover:bg-gray-50': seat.status === 'available' && isAvailable,
       'bg-pink-100 text-pink-800 border-2 border-pink-400': seat.type === 'ladies' && seat.status !== 'booked',
       'bg-red-100 text-red-800 border-2 border-red-400': seat.status === 'available' && !isAvailable,
-      'bg-blue-100 border-blue-300': seat.gender === 'male',
-      'bg-pink-100 border-pink-300': seat.gender === 'female'
+      // Add gender-specific classes only for booked seats
+      'bg-blue-100': seat.status === 'booked' && seat.gender === 'male',
+      'border-blue-300': seat.status === 'booked' && seat.gender === 'male',
+      'bg-pink-100': seat.status === 'booked' && seat.gender === 'female',
+      'border-pink-300': seat.status === 'booked' && seat.gender === 'female',
     };
+    return classes;
   }
 
   toggleSeatSelection(seat: any) {

@@ -9,6 +9,8 @@ import { SignupComponent } from './Auth/signup/signup.component';
 import { CancelTicketComponent } from './components/cancel-ticket/cancel-ticket.component';
 
 import { OffersPageComponent } from './components/offers-page/offers-page.component';
+import { AboutComponent } from './components/about/about.component';
+import { BookingsComponent } from './components/bookings/bookings.component';
 
 
 
@@ -20,6 +22,8 @@ export const routes: Routes = [
   { path: 'product-showcase', component: ScrollShowcaseComponent },
   {path:'login', component:LoginComponent},
   {path:'signup',component:SignupComponent},
-  {path:'cancel-ticket', component:CancelTicketComponent},
+  {path:'cancel-ticket/:id', component:CancelTicketComponent},
   {path:'offers',component:OffersPageComponent},
+  {path:'aboutus',component:AboutComponent},
+  {path:'bookings',component:BookingsComponent},
 ];

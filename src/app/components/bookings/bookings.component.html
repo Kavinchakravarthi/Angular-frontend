@@ -1,0 +1,279 @@
+<div class="bookings-page bg-gray-50 min-h-screen pb-12">
+  <!-- Header -->
+  <div class="bg-red-600 text-white py-6">
+    <div class="container mx-auto px-4">
+      <h1 class="text-2xl font-bold">My Bookings</h1>
+    </div>
+  </div>
+
+  <!-- Tabs -->
+  <div class="bg-white shadow-sm">
+    <div class="container mx-auto px-4">
+      <div class="flex justify-center items-center py-4 gap-4">
+        <button
+          (click)="activeTab = 'upcoming'"
+          class="relative flex items-center px-6 py-2 rounded-full font-semibold transition-all duration-200 shadow-sm focus:outline-none group"
+          [ngClass]="activeTab === 'upcoming' ? 'bg-gradient-to-r from-red-500 to-red-700 text-white shadow-lg scale-105' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+        >
+          <svg *ngIf="activeTab === 'upcoming'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          <svg *ngIf="activeTab !== 'upcoming'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+          Upcoming
+          <span class="ml-2 bg-white text-red-600 text-xs font-bold px-2 py-1 rounded-full shadow group-hover:bg-red-100 transition">{{bookings.upcoming.length}}</span>
+          <span *ngIf="activeTab === 'upcoming'" class="absolute left-1/2 -bottom-2 -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-red-400 to-red-700 rounded-full"></span>
+        </button>
+        <button
+          (click)="activeTab = 'completed'"
+          class="relative flex items-center px-6 py-2 rounded-full font-semibold transition-all duration-200 shadow-sm focus:outline-none group"
+          [ngClass]="activeTab === 'completed' ? 'bg-gradient-to-r from-green-400 to-blue-500 text-white shadow-lg scale-105' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+        >
+          <svg *ngIf="activeTab === 'completed'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+          <svg *ngIf="activeTab !== 'completed'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+          Completed
+          <span class="ml-2 bg-white text-blue-600 text-xs font-bold px-2 py-1 rounded-full shadow group-hover:bg-blue-100 transition">{{bookings.completed.length}}</span>
+          <span *ngIf="activeTab === 'completed'" class="absolute left-1/2 -bottom-2 -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-green-400 to-blue-500 rounded-full"></span>
+        </button>
+        <button
+          (click)="activeTab = 'cancelled'"
+          class="relative flex items-center px-6 py-2 rounded-full font-semibold transition-all duration-200 shadow-sm focus:outline-none group"
+          [ngClass]="activeTab === 'cancelled' ? 'bg-gradient-to-r from-gray-400 to-gray-600 text-white shadow-lg scale-105' : 'bg-gray-100 text-gray-600 hover:bg-gray-200'"
+        >
+          <svg *ngIf="activeTab === 'cancelled'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          <svg *ngIf="activeTab !== 'cancelled'" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" /></svg>
+          Cancelled
+          <span class="ml-2 bg-white text-gray-600 text-xs font-bold px-2 py-1 rounded-full shadow group-hover:bg-gray-200 transition">{{bookings.cancelled.length}}</span>
+          <span *ngIf="activeTab === 'cancelled'" class="absolute left-1/2 -bottom-2 -translate-x-1/2 w-8 h-1 bg-gradient-to-r from-gray-400 to-gray-600 rounded-full"></span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bookings List -->
+  <div class="container mx-auto px-4 mt-6">
+    <div *ngIf="bookings[activeTab].length === 0" class="empty-state bg-white rounded-lg shadow-sm p-8 text-center">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+      </svg>
+      <h3 class="text-xl font-medium text-gray-700 mb-2">No {{activeTab}} bookings</h3>
+      <p class="text-gray-500">You don't have any {{activeTab}} bookings at the moment</p>
+      <button *ngIf="activeTab !== 'cancelled'" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded">
+        Book a Bus
+      </button>
+      <button *ngIf="activeTab === 'cancelled'" class="mt-4 bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-6 rounded" (click)="activeTab = 'upcoming'">
+        View Upcoming Bookings
+      </button>
+    </div>
+
+    <div *ngFor="let booking of bookings[activeTab]" class="booking-card bg-white rounded-lg shadow-sm overflow-hidden mb-6">
+      <!-- Booking Header -->
+      <div class="border-b p-4 flex justify-between items-center">
+        <div>
+          <span class="text-sm text-gray-500">Booking ID:</span>
+          <span class="font-bold ml-2">{{booking.id}}</span>
+        </div>
+        <div [class]="booking.status === 'Confirmed' ? 'bg-green-100 text-green-800' : 
+                      booking.status === 'Completed' ? 'bg-blue-100 text-blue-800' : 
+                      'bg-gray-100 text-gray-800'" 
+             class="text-xs font-bold px-2 py-1 rounded">
+          {{booking.status}}
+        </div>
+      </div>
+
+      <!-- Booking Details -->
+      <div class="p-4">
+        <div class="flex flex-col md:flex-row">
+          <!-- Journey Details -->
+          <div class="md:w-2/3 pr-4 border-r border-gray-100">
+            <div class="flex items-center mb-4">
+              <div class="text-center">
+                <div class="text-xl font-bold">{{booking.departure}}</div>
+                <div class="text-xs text-gray-500">{{formatDate(booking.date)}}</div>
+              </div>
+              <div class="mx-4 flex-1 relative">
+                <div class="h-px bg-gray-300 w-full absolute top-1/2"></div>
+                <div class="relative flex justify-between">
+                  <div class="h-3 w-3 rounded-full bg-red-600"></div>
+                  <div class="h-3 w-3 rounded-full bg-red-600"></div>
+                </div>
+              </div>
+              <div class="text-center">
+                <div class="text-xl font-bold">{{booking.arrival}}</div>
+                <div class="text-xs text-gray-500">Next day</div>
+              </div>
+              <div class="ml-6">
+                <div class="font-bold">{{booking.from}} to {{booking.to}}</div>
+                <div class="text-sm text-gray-500">{{booking.busName}} - {{booking.busType}}</div>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-4">
+              <div>
+                <div class="text-sm text-gray-500">Boarding Point</div>
+                <div class="font-medium">{{booking.boardingPoint}}</div>
+                <div class="text-xs text-gray-500">Report 30 mins before departure</div>
+              </div>
+              <div>
+                <div class="text-sm text-gray-500">Dropping Point</div>
+                <div class="font-medium">{{booking.droppingPoint}}</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Fare & Actions -->
+          <div class="md:w-1/3 pl-4 mt-4 md:mt-0">
+            <div class="flex justify-between items-center mb-2">
+              <div class="text-sm text-gray-500">Total Fare</div>
+              <div class="text-xl font-bold text-red-600">₹{{booking.fare}}</div>
+            </div>
+            <div class="flex justify-between items-center mb-4">
+              <div class="text-sm text-gray-500">Seats</div>
+              <div class="font-medium">{{booking.seats.join(', ')}}</div>
+            </div>
+
+            <div *ngIf="activeTab === 'upcoming'" class="flex flex-col gap-2">
+              <div class="flex space-x-2">
+                <button class="flex-1 bg-red-600 hover:bg-red-700 text-white py-2 px-4 rounded text-sm font-medium">
+                  Download Ticket
+                </button>
+              </div>
+              <button class="flex-1 bg-white border border-red-600 text-red-600 hover:bg-red-50 py-2 px-4 rounded text-sm font-medium transition" (click)="cancelTicket(booking)">
+                Cancel Ticket
+              </button>
+            </div>
+
+            <div *ngIf="activeTab === 'completed'" class="flex space-x-2">
+              <button 
+                (click)="openRatingModal(booking)"
+                class="flex-1 bg-white border border-red-600 hover:bg-red-50 text-red-600 py-2 px-4 rounded text-sm font-medium"
+              >
+                {{booking.rating ? 'Update Rating' : 'Rate Journey'}}
+              </button>
+              <button class="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-2 px-4 rounded text-sm font-medium">
+                Download Invoice
+              </button>
+            </div>
+
+            <div *ngIf="activeTab === 'cancelled'" class="flex space-x-2">
+              <button class="flex-1 bg-white border border-gray-300 hover:bg-gray-50 text-gray-700 py-2 px-4 rounded text-sm font-medium">
+                View Details
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Amenities -->
+        <div class="mt-4 pt-4 border-t border-gray-100">
+          <div class="text-sm text-gray-500 mb-2">Amenities</div>
+          <div class="flex flex-wrap gap-2">
+            <div *ngFor="let amenity of booking.amenities" class="flex items-center text-sm bg-gray-50 px-3 py-1 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-green-500 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              {{amenity}}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Cancel Booking Modal -->
+  <div *ngIf="showCancelModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+    <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+      <div class="p-6">
+        <h3 class="text-lg font-bold mb-2">Cancel Booking</h3>
+        <p class="text-gray-600 mb-4">Are you sure you want to cancel this booking?</p>
+        
+        <div class="bg-red-50 border border-red-100 rounded p-4 mb-4">
+          <div class="font-bold text-red-600 mb-1">{{selectedBooking?.from}} to {{selectedBooking?.to}}</div>
+          <div class="text-sm text-gray-600">{{selectedBooking?.busName}} | {{formatDate(selectedBooking?.date || '')}}</div>
+        </div>
+
+        <div class="text-sm text-gray-600 mb-4">
+          Cancellation charges may apply as per policy. Refund will be credited within 5-7 working days.
+        </div>
+
+        <div class="flex justify-end space-x-3">
+          <button 
+            (click)="showCancelModal = false"
+            class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+          >
+            Go Back
+          </button>
+          <button 
+            (click)="cancelBooking()"
+            class="px-4 py-2 bg-red-600 rounded-md text-white hover:bg-red-700"
+          >
+            Confirm Cancellation
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- Rate Journey Modal -->
+<div *ngIf="showRatingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+  <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
+    <div class="p-6">
+      <h3 class="text-lg font-bold mb-2">Rate Your Journey</h3>
+      <p class="text-gray-600 mb-4">How would you rate your experience with {{selectedBooking?.busName}}?</p>
+      
+      <div class="bg-blue-50 border border-blue-100 rounded p-4 mb-4">
+        <div class="font-bold text-blue-600 mb-1">{{selectedBooking?.from}} to {{selectedBooking?.to}}</div>
+        <div class="text-sm text-gray-600">{{selectedBooking?.busName}} | {{formatDate(selectedBooking?.date || '')}}</div>
+      </div>
+
+      <div class="mb-6">
+        <div class="flex justify-center mb-2">
+          <div *ngFor="let star of [1,2,3,4,5]" class="mx-1">
+            <svg 
+              (click)="setRating(star)"
+              xmlns="http://www.w3.org/2000/svg" 
+              class="h-8 w-8 cursor-pointer" 
+              fill="none" 
+              viewBox="0 0 24 24" 
+              stroke="currentColor"
+              [class.text-yellow-400]="star <= currentRating"
+              [class.text-gray-300]="star > currentRating"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
+            </svg>
+          </div>
+        </div>
+        <p class="text-center text-sm text-gray-500">
+          {{currentRating === 0 ? 'Tap to rate' : 
+            currentRating === 1 ? 'Poor' : 
+            currentRating === 2 ? 'Fair' : 
+            currentRating === 3 ? 'Good' : 
+            currentRating === 4 ? 'Very Good' : 'Excellent'}}
+        </p>
+      </div>
+
+      <div class="mb-4">
+        <label for="feedback" class="block text-sm font-medium text-gray-700 mb-1">Feedback (Optional)</label>
+        <textarea 
+          id="feedback" 
+          rows="3" 
+          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+          [(ngModel)]="feedback"
+          placeholder="Share your experience..."
+        ></textarea>
+      </div>
+
+      <div class="flex justify-end space-x-3">
+        <button 
+          (click)="showRatingModal = false"
+          class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
+        >
+          Cancel
+        </button>
+        <button 
+          (click)="submitRating()"
+          [disabled]="currentRating === 0"
+          [class]="currentRating === 0 ? 'px-4 py-2 bg-blue-300 rounded-md text-white cursor-not-allowed' : 'px-4 py-2 bg-blue-600 rounded-md text-white hover:bg-blue-700'"
+        >
+          Submit Rating
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -169,8 +169,8 @@ export class HomeSectionComponent implements OnInit, OnDestroy {
   // Carousel images (all similar size/theme)
   carouselImages = [
     '/assets/Images/bus26.png',
-    '/assets/Images/bus25.png',
-    '/assets/Images/bus7.jpg'
+    '/assets/Images/bus27.png',
+    '/assets/Images/bus30.png'
   ];
 
   allPopularRoutes = [
