@@ -1,10 +1,5 @@
 <div class="bookings-page bg-gray-50 min-h-screen pb-12">
-  <!-- Header -->
-  <div class="bg-red-600 text-white py-6">
-    <div class="container mx-auto px-4">
-      <h1 class="text-2xl font-bold">My Bookings</h1>
-    </div>
-  </div>
+  
 
   <!-- Tabs -->
   <div class="bg-white shadow-sm">
@@ -142,7 +137,7 @@
 
             <div *ngIf="activeTab === 'completed'" class="flex space-x-2">
               <button 
-                (click)="openRatingModal(booking)"
+                (click)="rateJourney(booking)"
                 class="flex-1 bg-white border border-red-600 hover:bg-red-50 text-red-600 py-2 px-4 rounded text-sm font-medium"
               >
                 {{booking.rating ? 'Update Rating' : 'Rate Journey'}}
@@ -209,71 +204,5 @@
       </div>
     </div>
   </div>
-  <!-- Rate Journey Modal -->
-<div *ngIf="showRatingModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-  <div class="bg-white rounded-lg shadow-xl max-w-md w-full mx-4">
-    <div class="p-6">
-      <h3 class="text-lg font-bold mb-2">Rate Your Journey</h3>
-      <p class="text-gray-600 mb-4">How would you rate your experience with {{selectedBooking?.busName}}?</p>
-      
-      <div class="bg-blue-50 border border-blue-100 rounded p-4 mb-4">
-        <div class="font-bold text-blue-600 mb-1">{{selectedBooking?.from}} to {{selectedBooking?.to}}</div>
-        <div class="text-sm text-gray-600">{{selectedBooking?.busName}} | {{formatDate(selectedBooking?.date || '')}}</div>
-      </div>
-
-      <div class="mb-6">
-        <div class="flex justify-center mb-2">
-          <div *ngFor="let star of [1,2,3,4,5]" class="mx-1">
-            <svg 
-              (click)="setRating(star)"
-              xmlns="http://www.w3.org/2000/svg" 
-              class="h-8 w-8 cursor-pointer" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor"
-              [class.text-yellow-400]="star <= currentRating"
-              [class.text-gray-300]="star > currentRating"
-            >
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" />
-            </svg>
-          </div>
-        </div>
-        <p class="text-center text-sm text-gray-500">
-          {{currentRating === 0 ? 'Tap to rate' : 
-            currentRating === 1 ? 'Poor' : 
-            currentRating === 2 ? 'Fair' : 
-            currentRating === 3 ? 'Good' : 
-            currentRating === 4 ? 'Very Good' : 'Excellent'}}
-        </p>
-      </div>
-
-      <div class="mb-4">
-        <label for="feedback" class="block text-sm font-medium text-gray-700 mb-1">Feedback (Optional)</label>
-        <textarea 
-          id="feedback" 
-          rows="3" 
-          class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-          [(ngModel)]="feedback"
-          placeholder="Share your experience..."
-        ></textarea>
-      </div>
-
-      <div class="flex justify-end space-x-3">
-        <button 
-          (click)="showRatingModal = false"
-          class="px-4 py-2 border border-gray-300 rounded-md text-gray-700 hover:bg-gray-50"
-        >
-          Cancel
-        </button>
-        <button 
-          (click)="submitRating()"
-          [disabled]="currentRating === 0"
-          [class]="currentRating === 0 ? 'px-4 py-2 bg-blue-300 rounded-md text-white cursor-not-allowed' : 'px-4 py-2 bg-blue-600 rounded-md text-white hover:bg-blue-700'"
-        >
-          Submit Rating
-        </button>
-      </div>
-    </div>
-  </div>
-</div>
+  <!-- Rate Journey Modal removed; now handled in separate component -->
 </div>

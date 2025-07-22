@@ -1,4 +1,5 @@
 import { Component, ElementRef, AfterViewInit, OnDestroy, ViewChild, ViewChildren, QueryList } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
@@ -17,17 +18,58 @@ export class ScrollShowcaseComponent implements AfterViewInit, OnDestroy {
   @ViewChildren('scrollSection') scrollSections!: QueryList<ElementRef<HTMLDivElement>>;
 
   sections = [
-    { title: "Sample Title 1", description: "Sample description for section 1.", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" },
-    { title: "buses imagae sjsjshj", description: "Sample description for section 2.", image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 3", description: "Sample description for section 3.", image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 4", description: "Sample description for section 4.", image: "https://images.unsplash.com/photo-1465101178521-c1a9136a3c8b?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 5", description: "Sample description for section 5.", image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 6", description: "Sample description for section 6.", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 7", description: "Sample description for section 7.", image: "https://images.unsplash.com/photo-1500534314209-a25ddb2bd429?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 8", description: "Sample description for section 8.", image: "https://images.unsplash.com/photo-1465101178521-c1a9136a3c8b?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 9", description: "Sample description for section 9.", image: "https://images.unsplash.com/photo-1465101046530-73398c7f28ca?auto=format&fit=crop&w=1200&q=80" },
-    { title: "Sample Title 10", description: "Sample description for section 10.", image: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=1200&q=80" }
-  ];
+  {
+    title: "Ergonomic Seating Comfort",
+    description: "Designed for long journeys, our standard seats offer ergonomic support, adjustable headrests, and ample legroom for a relaxed ride.",
+    image: "/assets/Images/bus47.png"
+  },
+  {
+    title: "Luxury Recliner Seats",
+    description: "Premium leather recliner seats with ambient lighting, plush cushioning, and modern aesthetics for an executive travel experience.",
+    image: "/assets/Images/bus39.png"
+  },
+  {
+    title: "Sleek and Modern Bus Exterior",
+    description: "Our buses boast a stylish and aerodynamic exterior, built to offer comfort, safety, and a rich look that stands out on the road.",
+    image: "/assets/Images/bus28.jpg"
+  },
+  {
+    title: "Premium Black Leather Seating",
+    description: "Elegant black leather seats with sleek stitching offer both comfort and a high-end feel, perfect for luxury-conscious passengers.",
+    image: "/assets/Images/bus40.png"
+  },
+  {
+    title: "Onboard Charging Facilities",
+    description: "Stay powered throughout your journey with personal charging ports and device holders at every seat—ideal for smartphones and gadgets.",
+    image: "/assets/Images/bus41.png"
+  },
+  {
+    title: "Complimentary Snacks Onboard",
+    description: "Enjoy a range of refreshments during your journey, including soft drinks like Coke and tasty snacks served right to your seat.",
+    image: "/assets/Images/bus42.png"
+  },
+  {
+    title: "Restful Sleeper Cabins",
+    description: "Lie back and relax in fully private AC sleeper cabins with cozy bedding, ambient lighting, and a secure environment for restful travel.",
+    image: "/assets/Images/bus43.png"
+  },
+  {
+    title: "Professional Driver at the Wheel",
+    description: "Our skilled drivers maintain a safe and smooth ride, with a focus on punctuality, professionalism, and courteous service.",
+    image: "/assets/Images/bus44.png"
+  },
+  {
+    title: "Mobile Workspace on the Go",
+    description: "Work on the move with foldable trays, charging points, and privacy—ideal for professionals needing productivity on the road.",
+    image: "/assets/Images/bus45.png"
+  },
+  {
+    title: "Priority & Special Assistance Seating",
+    description: "Specially designated seats with extra space and easy access, designed for senior citizens, women, and differently-abled passengers.",
+    image: "/assets/Images/bus46.png"
+  }
+];
+
 
   activeIndex = 0;
 
@@ -73,4 +115,8 @@ export class ScrollShowcaseComponent implements AfterViewInit, OnDestroy {
     this.container.nativeElement.style.height = `${height}px`;
     ScrollTrigger.refresh();
   };
+  constructor(private router: Router) {}
+
+
+
 }

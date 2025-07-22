@@ -1,5 +1,6 @@
 // cancel-ticket.component.ts
 import { Component } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
@@ -47,6 +48,16 @@ export class CancelTicketComponent {
       bookingDate: '2023-12-11'
     }
   ];
+
+  constructor(private route: ActivatedRoute) {
+    // Read ticket id from route param if present
+    this.route.paramMap.subscribe(params => {
+      const id = params.get('id');
+      if (id) {
+        this.ticketId = id;
+      }
+    });
+  }
 
   searchTicket() {
     if (!this.ticketId || !this.passengerName) return;

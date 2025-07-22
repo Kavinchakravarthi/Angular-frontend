@@ -31,6 +31,10 @@ interface Booking {
   providers: [DatePipe]
 })
 export class BookingsComponent {
+  // Navigate to rate-journey component with booking data
+  rateJourney(booking: Booking) {
+    this.router.navigate(['/rate-journey'], { state: { booking } });
+  }
   activeTab: 'upcoming' | 'completed' | 'cancelled' = 'upcoming';
   showCancelModal: boolean = false;
   showRatingModal: boolean = false;

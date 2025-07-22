@@ -1,4 +1,7 @@
 <div #container class="scroll-container">
+  <!-- Fixed Book Seats Button -->
+  <button class="book-seats-btn">Book Seats</button>
+  
   <div class="content-wrapper">
     <!-- Left Column: Scrollable Text -->
     <div class="text-column">
@@ -13,6 +16,7 @@
         </ng-container>
       </div>
     </div>
+
     <!-- Right Column: Fixed Image -->
     <div class="image-column">
       <ng-container *ngFor="let section of sections; let i = index">
