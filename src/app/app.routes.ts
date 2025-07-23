@@ -12,6 +12,7 @@ import { OffersPageComponent } from './components/offers-page/offers-page.compon
 import { AboutComponent } from './components/about/about.component';
 import { BookingsComponent } from './components/bookings/bookings.component';
 import { RateJourneyComponent } from './components/rate-journey/rate-journey.component';
+import { PaymentSectionComponent } from './components/app-payament-section/app-payament-section.component';
 
 
 
@@ -28,4 +29,5 @@ export const routes: Routes = [
   {path:'aboutus',component:AboutComponent},
   {path:'bookings',component:BookingsComponent},
   {path:'rate-journey',component:RateJourneyComponent},
+  {path : 'payment' , component: PaymentSectionComponent},
 ];

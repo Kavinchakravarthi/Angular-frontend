@@ -799,6 +799,8 @@ export class SeatSelectionComponent {
       totalPrice: this.totalPrice
     };
 
+    this.router.navigate(['/payment'], { state: { booking: bookingData } });
+
     console.log('Booking submitted:', bookingData);
     // In real app: this.router.navigate(['/payment'], { state: { booking: bookingData } });
   }

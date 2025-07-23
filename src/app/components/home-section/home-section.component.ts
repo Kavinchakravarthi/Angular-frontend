@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule, Router } from '@angular/router';
@@ -130,6 +130,18 @@ import { AboutSectionComponent } from '../about-section/about-section.component'
       </div>
     </section>
     <app-about-section></app-about-section>
+
+    <!-- Scroll to top button -->
+    <button 
+      *ngIf="showScrollButton"
+      (click)="scrollToTop()"
+      class="fixed bottom-8 right-8 w-12 h-12 bg-red-600 hover:bg-red-700 text-white rounded-full shadow-lg flex items-center justify-center transition-all duration-300 z-50"
+      aria-label="Scroll to top"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18" />
+      </svg>
+    </button>
   `,
   styles: [
     `
@@ -165,6 +177,7 @@ export class HomeSectionComponent implements OnInit, OnDestroy {
   travelDate: string = new Date().toISOString().split('T')[0];
   currentSlide = 0;
   carouselInterval: any;
+  showScrollButton = false;
 
   // Carousel images (all similar size/theme)
   carouselImages = [
@@ -207,6 +220,19 @@ export class HomeSectionComponent implements OnInit, OnDestroy {
     if (this.carouselInterval) {
       clearInterval(this.carouselInterval);
     }
+  }
+
+  @HostListener('window:scroll', [])
+  onWindowScroll() {
+    this.showScrollButton = window.pageYOffset > 200;
+  }
+
+  scrollToTop() {
+    window.scroll({
+      top: 0,
+      left: 0,
+      behavior: 'smooth'
+    });
   }
 
   startCarousel() {

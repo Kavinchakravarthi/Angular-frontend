@@ -1,6 +1,6 @@
 <div #container class="scroll-container">
   <!-- Fixed Book Seats Button -->
-  <button class="book-seats-btn">Book Seats</button>
+  
   
   <div class="content-wrapper">
     <!-- Left Column: Scrollable Text -->
@@ -11,6 +11,7 @@
             <div class="text-content">
               <h2>{{ section.title }}</h2>
               <p>{{ section.description }}</p>
+              <button class="book-seats-btn" (click)="goSeatselection()">{{ section.button }}</button>
             </div>
           </div>
         </ng-container>
