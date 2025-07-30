@@ -249,5 +249,6 @@ export class SignupComponent {
   closePopup() {
     this.showSuccessPopup = false;
     this.router.navigate(['/']);
+    
   }
 }

@@ -106,7 +106,7 @@ import { FormsModule } from '@angular/forms';
               <div class="grid grid-cols-4 gap-2">
                 <button 
                   *ngFor="let app of upiApps" 
-                  (click)="selectUpiApp(app)"
+                    (click)="selectUpiApp(app)"
                   [class]="selectedUpiApp === app.name ? 'border-2 border-red-500' : 'border border-gray-200'"
                   class="p-2 rounded-md flex flex-col items-center justify-center"
                 >
